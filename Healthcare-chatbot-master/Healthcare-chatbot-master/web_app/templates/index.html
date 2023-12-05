@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>HEALTHCARE CHATBOX</h1>
+    <h3>🌟 Well, you've found me! I'm your friendly neighborhood health care chatbot, ready to assist you on your wellness journey.
+       Whether you need tips on staying fit, advice on managing a condition, or just some general health info, I've got you covered! 💪🏥 With my vast knowledge and 24/7 availability, you can count on me to provide accurate and reliable information. So, let's dive in and make your health a top priority together!
+       Just shoot me any health-related questions you have, and let's get started on this exciting adventure! 🌈🤗</h3>
+    <div>
+      <div id="chatbox">
+        <p class="botText">
+          <span>Please try typing full sentences as I am still learning!</span>
+        </p>
+        <p class="botText">
+          <span>I am a your Health assistant.</span>
+        </p>
+        <p class="botText">
+          <span>Hi There! how can i help you. What Symptoms you are facing</span
+          >
+        </p>
+      </div>
+      <div id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="Message" />
+        <input id="buttonInput" type="submit" value="Send" />
+      </div>
+      <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function (data) {
+            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function (e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+        $("#buttonInput").click(function () {
+          getBotResponse();
+        });
+      </script>
+    </div>
+  </body>
+</html>
